@@ -1,0 +1,23 @@
+<form
+  [formGroup]="caffeineForm"
+  (ngSubmit)="caffeineForm.valid && addCaffeine(caffeineForm.value)"
+>
+  <input
+    id="caffeine"
+    formControlName="caffeine"
+    class="form-control"
+    type="number"
+    placeholder="90"
+    required
+  />
+  <timepicker id="date" formControlName="date" required></timepicker>
+  <button class="btn btn-primary m-2" type="submit">Add To Caffeine</button>
+</form>
+
+<p>{{ caffeineService.caffeineInSystem | number: "1.0-1" }}</p>
+<div *ngFor="let day of caffeineByDay">
+  <p>{{ day.date }}</p>
+  <div *ngFor="let caffeine of day.caffeine">
+    <p>{{ caffeine.caffeine }}</p>
+  </div>
+</div>
