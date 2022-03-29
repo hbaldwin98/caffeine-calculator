@@ -7,16 +7,18 @@ import { HomeComponent } from './home/home.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TimepickerModule } from 'ngx-bootstrap/timepicker';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-
+import { AddCaffeineComponent } from './add-caffeine/add-caffeine.component';
+import { TypeaheadModule } from 'ngx-bootstrap/typeahead';
 @NgModule({
-  declarations: [AppComponent, HomeComponent],
+  declarations: [AppComponent, HomeComponent, AddCaffeineComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     TimepickerModule.forRoot(),
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    TypeaheadModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent],

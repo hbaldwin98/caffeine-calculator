@@ -1,0 +1,93 @@
+<div class="col text-center">
+  <h1>Select your Poison</h1>
+
+  <div
+    class="btn-group m-2"
+    role="group"
+    aria-label="Basic radio toggle button group"
+  >
+    <input
+      type="radio"
+      class="btn-check"
+      name="btnradio"
+      id="select"
+      autocomplete="off"
+      value="select"
+      [(ngModel)]="drinkType"
+      checked
+    />
+    <label class="btn btn-outline-success" for="select">Select Drink</label>
+
+    <input
+      type="radio"
+      class="btn-check"
+      name="btnradio"
+      id="custom"
+      value="custom"
+      [(ngModel)]="drinkType"
+      autocomplete="off"
+    />
+    <label class="btn btn-outline-success" for="custom">Custom Drink</label>
+  </div>
+
+  <form
+    (ngSubmit)="addCaffeineFromOptions(selectedOption)"
+    class="form-group"
+    *ngIf="drinkType === 'select'"
+    ngNativeValidate
+  >
+    <select
+      name="caffeineOption"
+      class="form-select"
+      aria-label="Default select example"
+      [(ngModel)]="selectedOption"
+      required
+    >
+      <ng-container *ngFor="let option of options; let i = index">
+        <option value="{{ i }}">
+          {{ option.name + " - " + option.caffeine + "mg" }}
+        </option>
+      </ng-container>
+    </select>
+    <button class="btn btn-success m-2" type="submit">Add Drink</button>
+  </form>
+</div>
+
+<form
+  class="form-group"
+  [formGroup]="caffeineForm"
+  (ngSubmit)="caffeineForm.valid && addCaffeine(caffeineForm.value)"
+  *ngIf="drinkType === 'custom'"
+>
+  <div class="row g-2">
+    <div class="col-md-8">
+      <div class="form-floating">
+        <input
+          id="name"
+          formControlName="name"
+          type="text"
+          class="form-control mb-1"
+          placeholder="Name of Drink"
+          required
+        />
+        <label for="name">Name of Drink</label>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="form-floating">
+        <input
+          id="caffeine"
+          formControlName="caffeine"
+          class="form-control"
+          type="number"
+          placeholder="90"
+          required
+        />
+        <label for="caffeine">Amount of Caffeine in Drink</label>
+      </div>
+    </div>
+    <label for="date" class="form-label">Time Drank</label>
+    <timepicker id="date" formControlName="date" required></timepicker>
+    <button class="btn btn-success m-2" type="submit">Add Drink</button>
+  </div>
+</form>

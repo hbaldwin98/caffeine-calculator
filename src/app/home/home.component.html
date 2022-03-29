@@ -1,23 +1,20 @@
-<form
-  [formGroup]="caffeineForm"
-  (ngSubmit)="caffeineForm.valid && addCaffeine(caffeineForm.value)"
->
-  <input
-    id="caffeine"
-    formControlName="caffeine"
-    class="form-control"
-    type="number"
-    placeholder="90"
-    required
-  />
-  <timepicker id="date" formControlName="date" required></timepicker>
-  <button class="btn btn-primary m-2" type="submit">Add To Caffeine</button>
-</form>
+<app-add-caffeine></app-add-caffeine>
 
-<p>{{ caffeineService.caffeineInSystem | number: "1.0-1" }}</p>
-<div *ngFor="let day of caffeineByDay">
-  <p>{{ day.date }}</p>
-  <div *ngFor="let caffeine of day.caffeine">
-    <p>{{ caffeine.caffeine }}</p>
+<p *ngIf="caffeineByDay.length > 0">{{ caffeineService.caffeineInSystem | number: "1.0-1" }}</p>
+<div class="row justify-content-center" *ngFor="let day of caffeineByDay">
+  <p class="text-center">Date: {{ day.date }}</p>
+  <div class="row m-2" *ngFor="let caffeine of day.caffeine">
+    <div class="col d-flex justify-content-between">
+      {{ caffeine.name }} <span>{{caffeine.date | date: 'shortTime'}}</span> {{ caffeine.caffeine }}mg
+    </div>
+    <div class="col d-flex justify-content-center">
+      <button
+      class="btn btn-sm btn-outline-danger"
+      (click)="removeCaffeine(caffeine)"
+    >
+      X
+    </button>
+    </div>
+
   </div>
 </div>

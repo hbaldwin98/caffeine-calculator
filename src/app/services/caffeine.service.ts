@@ -1,5 +1,5 @@
 import { Caffeine } from './../models/caffeine';
-import { Injectable } from '@angular/core';
+import { Injectable, OnInit } from '@angular/core';
 import { Day } from '../models/day';
 
 @Injectable({
@@ -11,7 +11,6 @@ export class CaffeineService {
   CAFFEINE_DECAY_RATE = 6;
 
   constructor() {}
-
   /**
    * Adds a new caffeine object to the user.
    *
@@ -19,6 +18,10 @@ export class CaffeineService {
    * @memberof CaffeineService
    */
   addCaffeine(caffeine: Caffeine) {
+    if (!caffeine.date) {
+      caffeine.date = new Date(Date.now());
+    }
+
     let newDate = {
       date:
         caffeine.date.getMonth() +
@@ -40,8 +43,37 @@ export class CaffeineService {
       this.caffeineByDay.push({ ...newDate, caffeine: [caffeine] });
     }
 
-    console.log(this.caffeineByDay);
     this.caffeineInSystem = this.calculateInSystem();
+  }
+
+  removeCaffeine(caffeine: Caffeine): void {
+    let newDate =
+      caffeine.date.getMonth() +
+      1 +
+      '-' +
+      caffeine.date.getDate() +
+      '-' +
+      caffeine.date.getFullYear();
+
+    let dayIndex = this.caffeineByDay.findIndex((day) => day.date === newDate);
+
+    if (dayIndex) {
+      this.caffeineByDay[dayIndex].caffeine.splice(this.caffeineByDay[dayIndex].caffeine.findIndex((caf) => caf === caffeine),1)
+      if (this.caffeineByDay[dayIndex].caffeine.length === 0) {
+        this.caffeineByDay.splice(dayIndex, 1);
+      }
+    }
+    this.caffeineInSystem = this.calculateInSystem();
+  }
+
+  setCaffeineDays(caffeineDays: Day[]) {
+    caffeineDays.forEach((day) => {
+      day.caffeine.forEach((caffeine) => {
+        caffeine.date = new Date(caffeine.date);
+      });
+    });
+
+    this.caffeineByDay = caffeineDays;
   }
 
   /**
@@ -50,7 +82,7 @@ export class CaffeineService {
    * @return {*} - array of days where caffeine has been consumed
    * @memberof CaffeineService
    */
-  getCaffeineDays() {
+  getCaffeineDays(): Day[] {
     return this.caffeineByDay;
   }
 
@@ -71,9 +103,12 @@ export class CaffeineService {
           (compareTime - caffeine.date.getTime()) / 1000 / 60 / 60;
 
         amountCaffeine +=
-          caffeine.caffeine * Math.pow(0.5, timeSinceDrank / this.CAFFEINE_DECAY_RATE);
+          caffeine.caffeine *
+          Math.pow(0.5, timeSinceDrank / this.CAFFEINE_DECAY_RATE);
       });
     });
+
+    localStorage.setItem('caffeine-data', JSON.stringify(this.caffeineByDay));
 
     return amountCaffeine;
   }
