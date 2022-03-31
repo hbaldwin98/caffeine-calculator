@@ -21,7 +21,6 @@ export class CaffeineService {
     if (!caffeine.date) {
       caffeine.date = new Date(Date.now());
     }
-    console.log(caffeine);
 
     let newDate = {
       date:
@@ -39,9 +38,9 @@ export class CaffeineService {
     );
 
     if (dateIndex >= 0) {
-      this.caffeineByDay[dateIndex].caffeine.push(caffeine);
+      this.caffeineByDay[dateIndex].caffeine.unshift(caffeine);
     } else {
-      this.caffeineByDay.push({ ...newDate, caffeine: [caffeine] });
+      this.caffeineByDay.unshift({ ...newDate, caffeine: [caffeine] });
     }
 
     this.caffeineInSystem = this.calculateInSystem();
@@ -73,6 +72,10 @@ export class CaffeineService {
         caffeine.date = new Date(caffeine.date);
       });
     });
+    caffeineDays.sort((a: Day, b: Day) => new Date(b.date).getTime() - new Date(a.date).getTime());
+    caffeineDays.forEach(day => {
+      day.caffeine.sort((a: Caffeine, b: Caffeine) => new Date(b.date).getTime() - new Date(a.date).getTime());
+    })
 
     this.caffeineByDay = caffeineDays;
   }
@@ -112,5 +115,22 @@ export class CaffeineService {
     localStorage.setItem('caffeine-data', JSON.stringify(this.caffeineByDay));
 
     return amountCaffeine;
+  }
+
+  getCaffeineToday() {
+    let day = new Date(Date.now());
+    let today =
+      day.getMonth() + 1 + '-' + day.getDate() + '-' + day.getFullYear();
+    let caffeine = 0;
+
+    this.caffeineByDay.forEach((day) => {
+      if (day.date === today) {
+        day.caffeine.forEach((caff) => {
+          caffeine += caff.caffeine;
+        });
+      }
+    });
+
+    return caffeine;
   }
 }

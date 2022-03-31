@@ -16,11 +16,19 @@ export class HomeComponent implements OnInit {
   caffeineInSystem!: number;
   modalRef?: BsModalRef;
 
-  constructor(public caffeineService: CaffeineService, private modalService: BsModalService) {}
+  constructor(
+    public caffeineService: CaffeineService,
+    private modalService: BsModalService
+  ) {}
 
   ngOnInit(): void {
-    this.getCaffeineDays()
+    this.getCaffeineDays();
     this.caffeineInSystem = this.caffeineService.calculateInSystem();
+    this.getCaffeineToday();
+  }
+
+  getCaffeineToday() {
+    return this.caffeineService.getCaffeineToday();
   }
 
   removeCaffeine(caffeine: Caffeine) {
