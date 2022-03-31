@@ -72,6 +72,8 @@ export class CaffeineService {
         caffeine.date = new Date(caffeine.date);
       });
     });
+
+    // sorting the days and the caffeine for each day by date and time
     caffeineDays.sort((a: Day, b: Day) => new Date(b.date).getTime() - new Date(a.date).getTime());
     caffeineDays.forEach(day => {
       day.caffeine.sort((a: Caffeine, b: Caffeine) => new Date(b.date).getTime() - new Date(a.date).getTime());
