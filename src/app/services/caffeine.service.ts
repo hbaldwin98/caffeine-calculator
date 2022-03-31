@@ -21,6 +21,7 @@ export class CaffeineService {
     if (!caffeine.date) {
       caffeine.date = new Date(Date.now());
     }
+    console.log(caffeine);
 
     let newDate = {
       date:
@@ -57,7 +58,7 @@ export class CaffeineService {
 
     let dayIndex = this.caffeineByDay.findIndex((day) => day.date === newDate);
 
-    if (dayIndex) {
+    if (dayIndex >= 0) {
       this.caffeineByDay[dayIndex].caffeine.splice(this.caffeineByDay[dayIndex].caffeine.findIndex((caf) => caf === caffeine),1)
       if (this.caffeineByDay[dayIndex].caffeine.length === 0) {
         this.caffeineByDay.splice(dayIndex, 1);

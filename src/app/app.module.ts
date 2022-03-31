@@ -9,6 +9,7 @@ import { TimepickerModule } from 'ngx-bootstrap/timepicker';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AddCaffeineComponent } from './add-caffeine/add-caffeine.component';
 import { TypeaheadModule } from 'ngx-bootstrap/typeahead';
+import { ModalModule } from 'ngx-bootstrap/modal';
 @NgModule({
   declarations: [AppComponent, HomeComponent, AddCaffeineComponent],
   imports: [
@@ -18,7 +19,8 @@ import { TypeaheadModule } from 'ngx-bootstrap/typeahead';
     TimepickerModule.forRoot(),
     FormsModule,
     ReactiveFormsModule,
-    TypeaheadModule.forRoot()
+    TypeaheadModule.forRoot(),
+    ModalModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent],

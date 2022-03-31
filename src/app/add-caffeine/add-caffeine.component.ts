@@ -1,5 +1,6 @@
+import { BsModalRef } from 'ngx-bootstrap/modal';
 import { Caffeine } from './../models/caffeine';
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import {
   AbstractControl,
   FormBuilder,
@@ -21,7 +22,8 @@ export class AddCaffeineComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    public caffeineService: CaffeineService
+    public caffeineService: CaffeineService,
+    public bsModalRef: BsModalRef
   ) {}
 
   ngOnInit(): void {
@@ -35,6 +37,7 @@ export class AddCaffeineComponent implements OnInit {
         (control: AbstractControl) => {
           const value = control.value;
 
+          console.log(value);
           if (!value) {
             return null;
           }
@@ -97,9 +100,11 @@ export class AddCaffeineComponent implements OnInit {
 
   addCaffeine(caffeine: Caffeine) {
     this.caffeineService.addCaffeine(caffeine);
+    this.bsModalRef.hide();
   }
 
   addCaffeineFromOptions(index: number) {
     this.caffeineService.addCaffeine(this.options[index]);
+    this.bsModalRef.hide();
   }
 }
