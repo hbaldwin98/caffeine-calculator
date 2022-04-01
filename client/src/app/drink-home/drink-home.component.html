@@ -1,0 +1,23 @@
+<div class="row text-center justify-content-center">
+  <div
+    class="caffeine-fillup d-flex align-items-center justify-content-center mt-4"
+    [ngStyle]="{
+      background:
+        'linear-gradient(to right, #c9ada7 ' +
+        (getCaffeineToday() / 400) * 100 +
+        '%, #f2e9e4 0%)'
+    }"
+  >
+    <b>Today: {{ getCaffeineToday() | number: "1.0-1" }}mg / 400mg</b>
+  </div>
+  <div class="m-2">
+    {{
+      caffeineService.caffeineInSystem || caffeineInSystem | number: "1.0-1"
+    }}mg still in system
+  </div>
+</div>
+<div class="col my-2 text-center mx-auto">
+  <button type="button" class="btn btn-success" (click)="openModal()">
+    Add Caffeinated Beverage
+  </button>
+</div>

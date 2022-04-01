@@ -1,45 +1,4 @@
 <div class="container-fluid pb-4">
-  <div class="row text-center justify-content-center">
-    <div
-      class="caffeine-fillup d-flex align-items-center justify-content-center mt-4"
-      [ngStyle]="{
-        background:
-          'linear-gradient(to right, #c9ada7 ' +
-          (getCaffeineToday() / 400) * 100 +
-          '%, #f2e9e4 0%)'
-      }"
-    >
-      <b>Today: {{ getCaffeineToday() | number: "1.0-1" }}mg / 400mg</b>
-    </div>
-    <div class="m-2" *ngIf="caffeineByDay.length > 0">
-      {{
-        caffeineService.caffeineInSystem || caffeineInSystem | number: "1.0-1"
-      }}mg still in system
-    </div>
-  </div>
-  <div class="col my-2 text-center mx-auto">
-    <button type="button" class="btn btn-success" (click)="openModal()">
-      Add Caffeinated Beverage
-    </button>
-  </div>
-  <div class="row justify-content-center" *ngFor="let day of caffeineByDay">
-    <p class="text-center mt-2 mb-3">{{ day.date }}</p>
-    <div class="row mx-2 m-2" *ngFor="let caffeine of day.caffeine">
-      <div class="col d-flex justify-content-center">
-        <div class="col-4">
-          {{ caffeine.name }}
-        </div>
-        <div class="col-3">{{ caffeine.caffeine }}mg</div>
-        <div class="col-3">
-          {{ caffeine.date | date: "shortTime" }}
-        </div>
-        <button
-          class="btn btn-sm btn-outline-danger"
-          (click)="removeCaffeine(caffeine)"
-        >
-          Remove
-        </button>
-      </div>
-    </div>
-  </div>
+  <app-drink-home *ngIf="currentTab === 'home'"></app-drink-home>
+  <app-drink-list *ngIf="currentTab === 'list'"></app-drink-list>
 </div>

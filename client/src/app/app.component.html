@@ -1,5 +1,5 @@
-<app-nav> </app-nav>
+<app-nav (tabEvent)="receiveTab($event)"></app-nav>
 
 <div class="body-container px-2">
-  <app-home></app-home>
+  <app-home [currentTab]="currentTab"></app-home>
 </div>

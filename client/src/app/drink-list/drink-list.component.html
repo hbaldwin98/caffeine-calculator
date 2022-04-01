@@ -1,0 +1,20 @@
+<div class="row justify-content-center" *ngFor="let day of caffeineByDay">
+  <p class="text-center mt-2 mb-3">{{ day.date }}</p>
+  <div class="row mx-2 m-2" *ngFor="let caffeine of day.caffeine">
+    <div class="col d-flex justify-content-center">
+      <div class="col-4">
+        {{ caffeine.name }}
+      </div>
+      <div class="col-3">{{ caffeine.caffeine }}mg</div>
+      <div class="col-3">
+        {{ caffeine.date | date: "shortTime" }}
+      </div>
+      <button
+        class="btn btn-sm btn-outline-danger"
+        (click)="removeCaffeine(caffeine)"
+      >
+        Remove
+      </button>
+    </div>
+  </div>
+</div>

@@ -9,6 +9,7 @@ import { Component, OnInit } from '@angular/core';
 
 export class AppComponent implements OnInit {
   title = 'Caffeine Calculator';
+  currentTab!: string;
 
   constructor(private caffeineService: CaffeineService) {}
 
@@ -19,6 +20,10 @@ export class AppComponent implements OnInit {
   setCaffeineData() {
     let caffeineData = localStorage.getItem('caffeine-data');
     this.caffeineService.setCaffeineDays(caffeineData !== null ? JSON.parse(caffeineData) : null);
+  }
+
+  receiveTab($event: string) {
+    this.currentTab = $event;
   }
 
 

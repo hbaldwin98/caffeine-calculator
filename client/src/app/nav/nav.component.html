@@ -4,7 +4,7 @@
   </div>
   <div class="container-fluid p-0 justify-content-center">
     <tabset class="pb-0" [justified]="true">
-      <tab>
+      <tab  id='options' (selectTab)="onSelect($event)">
         <ng-template tabHeading>
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -20,7 +20,7 @@
         >
         </ng-template>
       </tab>
-      <tab>
+      <tab id='home' (selectTab)="onSelect($event)">
         <ng-template tabHeading>
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -36,7 +36,7 @@
         >
         </ng-template>
       </tab>
-      <tab>
+      <tab id='list' (selectTab)="onSelect($event)">
         <ng-template tabHeading>
           <svg
             xmlns="http://www.w3.org/2000/svg"
