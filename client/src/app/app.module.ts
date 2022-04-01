@@ -10,8 +10,10 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AddCaffeineComponent } from './add-caffeine/add-caffeine.component';
 import { TypeaheadModule } from 'ngx-bootstrap/typeahead';
 import { ModalModule } from 'ngx-bootstrap/modal';
+import { NavComponent } from './nav/nav.component';
+import { TabsModule } from 'ngx-bootstrap/tabs';
 @NgModule({
-  declarations: [AppComponent, HomeComponent, AddCaffeineComponent],
+  declarations: [AppComponent, HomeComponent, AddCaffeineComponent, NavComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -20,7 +22,8 @@ import { ModalModule } from 'ngx-bootstrap/modal';
     FormsModule,
     ReactiveFormsModule,
     TypeaheadModule.forRoot(),
-    ModalModule.forRoot()
+    ModalModule.forRoot(),
+    TabsModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent],

@@ -36,8 +36,6 @@ export class AddCaffeineComponent implements OnInit {
         '',
         (control: AbstractControl) => {
           const value = control.value;
-
-          console.log(value);
           if (!value) {
             return null;
           }

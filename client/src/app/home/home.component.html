@@ -1,29 +1,29 @@
-<div class="container">
+<div class="container-fluid pb-4">
   <div class="row text-center justify-content-center">
     <div
-      class="caffeine-fillup d-flex align-items-center justify-content-center border mt-4"
-      style="max-width: 700px; height: 50px; border-radius: 15px"
+      class="caffeine-fillup d-flex align-items-center justify-content-center mt-4"
       [ngStyle]="{
         background:
-          'linear-gradient(to right, #bc8a5f ' +
+          'linear-gradient(to right, #c9ada7 ' +
           (getCaffeineToday() / 400) * 100 +
-          '%, white 0%)'
+          '%, #f2e9e4 0%)'
       }"
     >
       <b>Today: {{ getCaffeineToday() | number: "1.0-1" }}mg / 400mg</b>
     </div>
     <div class="m-2" *ngIf="caffeineByDay.length > 0">
-      <b>
-        {{
-          caffeineService.caffeineInSystem || caffeineInSystem
-            | number: "1.0-1"
-        }}mg still in system
-      </b>
+      {{
+        caffeineService.caffeineInSystem || caffeineInSystem | number: "1.0-1"
+      }}mg still in system
     </div>
   </div>
-
+  <div class="col my-2 text-center mx-auto">
+    <button type="button" class="btn btn-success" (click)="openModal()">
+      Add Caffeinated Beverage
+    </button>
+  </div>
   <div class="row justify-content-center" *ngFor="let day of caffeineByDay">
-    <b class="text-center mt-2 mb-3">{{ day.date }}</b>
+    <p class="text-center mt-2 mb-3">{{ day.date }}</p>
     <div class="row mx-2 m-2" *ngFor="let caffeine of day.caffeine">
       <div class="col d-flex justify-content-center">
         <div class="col-4">
@@ -37,15 +37,9 @@
           class="btn btn-sm btn-outline-danger"
           (click)="removeCaffeine(caffeine)"
         >
-          Delete
+          Remove
         </button>
       </div>
     </div>
-  </div>
-
-  <div class="row pt-4 mx-1 pb-4">
-    <button type="button" class="btn btn-success" (click)="openModal()">
-      Add Caffeinated Beverage
-    </button>
   </div>
 </div>

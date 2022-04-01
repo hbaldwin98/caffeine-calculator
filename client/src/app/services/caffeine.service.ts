@@ -1,5 +1,5 @@
 import { Caffeine } from './../models/caffeine';
-import { Injectable, OnInit } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Day } from '../models/day';
 
 @Injectable({
@@ -7,8 +7,8 @@ import { Day } from '../models/day';
 })
 export class CaffeineService {
   caffeineByDay: Day[] = [];
-  public caffeineInSystem: number = 0;
-  CAFFEINE_DECAY_RATE = 6;
+  caffeineInSystem: number = 0;
+  CAFFEINE_DECAY_RATE = 5;
 
   constructor() {}
   /**
@@ -38,7 +38,14 @@ export class CaffeineService {
     );
 
     if (dateIndex >= 0) {
-      this.caffeineByDay[dateIndex].caffeine.unshift(caffeine);
+      let insertIndex = this.caffeineByDay[dateIndex].caffeine.findIndex(
+        (caff) => caff.date < caffeine.date
+      );
+      if (insertIndex === -1) {
+        this.caffeineByDay[dateIndex].caffeine.push(caffeine);
+      } else {
+        this.caffeineByDay[dateIndex].caffeine.splice(insertIndex, 0, caffeine);
+      }
     } else {
       this.caffeineByDay.unshift({ ...newDate, caffeine: [caffeine] });
     }
@@ -58,7 +65,12 @@ export class CaffeineService {
     let dayIndex = this.caffeineByDay.findIndex((day) => day.date === newDate);
 
     if (dayIndex >= 0) {
-      this.caffeineByDay[dayIndex].caffeine.splice(this.caffeineByDay[dayIndex].caffeine.findIndex((caf) => caf === caffeine),1)
+      this.caffeineByDay[dayIndex].caffeine.splice(
+        this.caffeineByDay[dayIndex].caffeine.findIndex(
+          (caf) => caf === caffeine
+        ),
+        1
+      );
       if (this.caffeineByDay[dayIndex].caffeine.length === 0) {
         this.caffeineByDay.splice(dayIndex, 1);
       }
@@ -74,10 +86,16 @@ export class CaffeineService {
     });
 
     // sorting the days and the caffeine for each day by date and time
-    caffeineDays.sort((a: Day, b: Day) => new Date(b.date).getTime() - new Date(a.date).getTime());
-    caffeineDays.forEach(day => {
-      day.caffeine.sort((a: Caffeine, b: Caffeine) => new Date(b.date).getTime() - new Date(a.date).getTime());
-    })
+    caffeineDays.sort(
+      (a: Day, b: Day) =>
+        new Date(b.date).getTime() - new Date(a.date).getTime()
+    );
+    caffeineDays.forEach((day) => {
+      day.caffeine.sort(
+        (a: Caffeine, b: Caffeine) =>
+          new Date(b.date).getTime() - new Date(a.date).getTime()
+      );
+    });
 
     this.caffeineByDay = caffeineDays;
   }
