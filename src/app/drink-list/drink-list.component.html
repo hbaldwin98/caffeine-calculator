@@ -1,38 +1,47 @@
-<div class="container text-center mt-3">
+<div class="container">
   <div class="row">
-    <h3>Last 7 Days</h3>
-    <div class="col p-0" *ngFor="let day of caffeineLast7Days">
-      <div
-        class="chart border m-auto"
-        [ngStyle]="{
-          background:
-            'linear-gradient(to top, #C9ADA7 ' +
-            (day.caffeine / maxCaffeineDay) * 100 +
-            '%, white 0%)'
-        }"
-      ></div>
-      <small>{{ day.caffeine }}mg <br>{{ day.date | date: "M/d" }}</small>
+    <div class="col-lg-6">
+      <div class="text-center mt-3">
+        <div class="row">
+          <h3>Last 7 Days</h3>
+          <div class="col p-0" *ngFor="let day of caffeineLast7Days">
+            <div
+              class="chart border m-auto"
+              [ngStyle]="{
+                background:
+                  'linear-gradient(to top, #C9ADA7 ' +
+                  (day.caffeine / maxCaffeineDay) * 100 +
+                  '%, white 0%)'
+              }"
+            ></div>
+            <small>{{ day.caffeine }}mg <br />{{ day.date | date: "M/d" }}</small>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-6">
+      <h2 class="text-center mt-3">History</h2>
+      <div class="my-3" *ngFor="let day of caffeineByDay">
+        <p class="text-center mt-2 mb-3">{{ day.date | date: "longDate" }}</p>
+        <div class="row mx-2 m-2" *ngFor="let caffeine of day.caffeine">
+          <div class="d-flex justify-content-center">
+            <div class="col-4">
+              {{ caffeine.name }}
+            </div>
+            <div class="col-3">{{ caffeine.caffeine }}mg</div>
+            <div class="col-3">
+              {{ caffeine.date | date: "shortTime" }}
+            </div>
+            <button
+              class="btn btn-sm btn-outline-danger"
+              (click)="removeCaffeine(caffeine)"
+            >
+              Remove
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
-</div>
-<h2 class="text-center mt-3">History</h2>
-<div class="container justify-content-center my-3" *ngFor="let day of caffeineByDay">
-  <p class="text-center mt-2 mb-3">{{ day.date }}</p>
-  <div class="row mx-2 m-2" *ngFor="let caffeine of day.caffeine">
-    <div class="col d-flex justify-content-center">
-      <div class="col-4">
-        {{ caffeine.name }}
-      </div>
-      <div class="col-3">{{ caffeine.caffeine }}mg</div>
-      <div class="col-3">
-        {{ caffeine.date | date: "shortTime" }}
-      </div>
-      <button
-        class="btn btn-sm btn-outline-danger"
-        (click)="removeCaffeine(caffeine)"
-      >
-        Remove
-      </button>
-    </div>
-  </div>
+
 </div>

@@ -11,7 +11,7 @@ import { Day } from '../models/day';
   styleUrls: ['./drink-home.component.sass'],
 })
 export class DrinkHomeComponent implements OnInit {
-  drinksToday!: Caffeine[];
+  drinksToday: Caffeine[] = [];
   caffeineInSystem!: number;
   modalRef?: BsModalRef;
 
