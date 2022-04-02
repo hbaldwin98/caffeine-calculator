@@ -1,6 +1,7 @@
 import { Caffeine } from './../models/caffeine';
 import { Injectable } from '@angular/core';
 import { Day } from '../models/day';
+import { TypeaheadOptions } from 'ngx-bootstrap/typeahead';
 
 @Injectable({
   providedIn: 'root',
@@ -8,7 +9,7 @@ import { Day } from '../models/day';
 export class CaffeineService {
   caffeineByDay: Day[] = [];
   caffeineInSystem: number = 0;
-  CAFFEINE_DECAY_RATE = 5;
+  caffeineHalfLife = 5;
 
   constructor() {}
   /**
@@ -23,13 +24,7 @@ export class CaffeineService {
     }
 
     let newDate = {
-      date:
-        caffeine.date.getMonth() +
-        1 +
-        '-' +
-        caffeine.date.getDate() +
-        '-' +
-        caffeine.date.getFullYear(),
+      date: this.getDateString(),
       caffeine: [],
     };
 
@@ -54,13 +49,7 @@ export class CaffeineService {
   }
 
   removeCaffeine(caffeine: Caffeine): void {
-    let newDate =
-      caffeine.date.getMonth() +
-      1 +
-      '-' +
-      caffeine.date.getDate() +
-      '-' +
-      caffeine.date.getFullYear();
+    let newDate = this.getDateString();
 
     let dayIndex = this.caffeineByDay.findIndex((day) => day.date === newDate);
 
@@ -128,7 +117,7 @@ export class CaffeineService {
 
         amountCaffeine +=
           caffeine.caffeine *
-          Math.pow(0.5, timeSinceDrank / this.CAFFEINE_DECAY_RATE);
+          Math.pow(0.5, timeSinceDrank / this.caffeineHalfLife);
       });
     });
 
@@ -138,9 +127,7 @@ export class CaffeineService {
   }
 
   getCaffeineToday() {
-    let day = new Date(Date.now());
-    let today =
-      day.getMonth() + 1 + '-' + day.getDate() + '-' + day.getFullYear();
+    let today = this.getDateString()
     let caffeine = 0;
 
     this.caffeineByDay.forEach((day) => {
@@ -152,5 +139,46 @@ export class CaffeineService {
     });
 
     return caffeine;
+  }
+
+  getCaffeineLast7Days(): Day[] {
+    let days: any = [];
+    for (let i = 0; i < 7; i++) {
+      let date = new Date(Date.now());
+      let caffeine = 0;
+      date.setDate(date.getDate() - i);
+      let newDate =
+        date.getMonth() + 1 + '-' + date.getDate() + '-' + date.getFullYear();
+      let dayIndex = this.caffeineByDay.findIndex((day) => day.date === newDate);
+
+      if (dayIndex >= 0) {
+        this.caffeineByDay[dayIndex].caffeine.forEach((caff) => {
+          caffeine += caff.caffeine;
+        });
+        days.push({date: this.caffeineByDay[dayIndex].date, caffeine: caffeine });
+      } else {
+        days.push({ date: newDate, caffeine: 0 });
+      }
+    }
+    days.reverse();
+    return days;
+  }
+
+  getDrinksToday() {
+    let todayIndex = this.caffeineByDay.findIndex(day => day.date === this.getDateString());
+
+    if (todayIndex >= 0) {
+      return this.caffeineByDay[todayIndex].caffeine;
+    } else {
+      return [];
+    }
+  }
+
+  getDateString() {
+    let date = new Date(Date.now());
+    let dateString =
+        date.getMonth() + 1 + '-' + date.getDate() + '-' + date.getFullYear();
+
+    return dateString;
   }
 }

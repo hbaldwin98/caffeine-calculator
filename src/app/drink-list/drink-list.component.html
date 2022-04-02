@@ -1,4 +1,22 @@
-<div class="row justify-content-center" *ngFor="let day of caffeineByDay">
+<div class="container text-center mt-3">
+  <div class="row">
+    <h3>Last 7 Days</h3>
+    <div class="col p-0" *ngFor="let day of caffeineLast7Days">
+      <div
+        class="chart border m-auto"
+        [ngStyle]="{
+          background:
+            'linear-gradient(to top, #C9ADA7 ' +
+            (day.caffeine / maxCaffeineDay) * 100 +
+            '%, white 0%)'
+        }"
+      ></div>
+      <small>{{ day.caffeine }}mg <br>{{ day.date | date: "M/d" }}</small>
+    </div>
+  </div>
+</div>
+<h2 class="text-center mt-3">History</h2>
+<div class="container justify-content-center my-3" *ngFor="let day of caffeineByDay">
   <p class="text-center mt-2 mb-3">{{ day.date }}</p>
   <div class="row mx-2 m-2" *ngFor="let caffeine of day.caffeine">
     <div class="col d-flex justify-content-center">

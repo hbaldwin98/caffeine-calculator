@@ -14,8 +14,9 @@ import { NavComponent } from './nav/nav.component';
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { DrinkListComponent } from './drink-list/drink-list.component';
 import { DrinkHomeComponent } from './drink-home/drink-home.component';
+import { OptionsComponent } from './options/options.component';
 @NgModule({
-  declarations: [AppComponent, HomeComponent, AddCaffeineComponent, NavComponent, DrinkListComponent, DrinkHomeComponent,],
+  declarations: [AppComponent, HomeComponent, AddCaffeineComponent, NavComponent, DrinkListComponent, DrinkHomeComponent, OptionsComponent,],
   imports: [
     BrowserModule,
     AppRoutingModule,
