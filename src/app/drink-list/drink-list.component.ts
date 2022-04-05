@@ -12,18 +12,18 @@ export class DrinkListComponent implements OnInit {
   caffeineLast7Days!: any[];
   maxCaffeineDay: number = 0;
   @Input() caffeineByDay!: Day[];
+  currentDay: number = 0;
 
   constructor(private caffeineService: CaffeineService) { }
 
   ngOnInit(): void {
-    this.getCaffeineDays();
-    this.getCaffeineLast7Days();
+    this.load();
   }
 
 
   removeCaffeine(caffeine: Caffeine) {
     this.caffeineService.removeCaffeine(caffeine);
-    this.getCaffeineDays();
+    this.load();
   }
 
 
@@ -36,6 +36,15 @@ export class DrinkListComponent implements OnInit {
     this.caffeineLast7Days.forEach((day) => {
       this.maxCaffeineDay = Math.max(this.maxCaffeineDay, day.caffeine);
     });
+  }
+
+  changeDay(amount: number) {
+    this.currentDay += amount;
+  }
+
+  load() {
+    this.getCaffeineDays();
+    this.getCaffeineLast7Days();
   }
 
 }

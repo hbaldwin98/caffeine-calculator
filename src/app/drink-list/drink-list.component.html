@@ -4,7 +4,7 @@
       <div class="text-center mt-3">
         <div class="row">
           <h3>Last 7 Days</h3>
-          <div class="col p-0" *ngFor="let day of caffeineLast7Days">
+          <div class="col p-0 mt-3" *ngFor="let day of caffeineLast7Days">
             <div
               class="chart border m-auto"
               [ngStyle]="{
@@ -14,34 +14,67 @@
                   '%, white 0%)'
               }"
             ></div>
-            <small>{{ day.caffeine }}mg <br />{{ day.date | date: "M/d" }}</small>
+            <small
+              >{{ day.caffeine }}mg <br />{{ day.date | date: "M/d" }}</small
+            >
           </div>
         </div>
       </div>
     </div>
     <div class="col-lg-6">
-      <h2 class="text-center mt-3">History</h2>
-      <div class="my-3" *ngFor="let day of caffeineByDay">
-        <p class="text-center mt-2 mb-3">{{ day.date | date: "longDate" }}</p>
-        <div class="row mx-2 m-2" *ngFor="let caffeine of day.caffeine">
-          <div class="d-flex justify-content-center">
-            <div class="col-4">
-              {{ caffeine.name }}
-            </div>
-            <div class="col-3">{{ caffeine.caffeine }}mg</div>
-            <div class="col-3">
-              {{ caffeine.date | date: "shortTime" }}
-            </div>
-            <button
-              class="btn btn-sm btn-outline-danger"
-              (click)="removeCaffeine(caffeine)"
-            >
-              Remove
-            </button>
-          </div>
+      <h2 class="text-center mt-4">Previous Days</h2>
+      <div class="row">
+        <div class="col d-flex justify-content-start align-items-center">
+          <button
+            class="btn border d-flex justify-content-center align-items-center day-button"
+            *ngIf="currentDay < caffeineByDay.length-1"
+            (click)="changeDay(1)"
+          >
+            <i class="bi bi-arrow-left-square-fill"></i>
+          </button>
         </div>
+        <div class="col">
+          <p class="text-center mt-2 mb-3">
+            {{ caffeineByDay[currentDay].date | date: "longDate" }}
+          </p>
+        </div>
+        <div class="col d-flex justify-content-end align-items-center">
+          <button
+            class="btn border d-flex justify-content-center align-items-center day-button"
+            *ngIf="currentDay !== 0"
+            (click)="changeDay(-1)"
+          >
+            <i class="bi bi-arrow-right-square-fill"></i>
+          </button>
+        </div>
+      </div>
+
+      <div
+        class="my-3"
+        *ngFor="let caffeine of caffeineByDay[currentDay].caffeine"
+      >
+        <div class="d-flex justify-content-center">
+          <div class="col-4">
+            {{ caffeine.name }}
+          </div>
+          <div class="col-3">{{ caffeine.caffeine }}mg</div>
+          <div class="col-3">
+            {{ caffeine.date | date: "shortTime" }}
+          </div>
+          <button
+            class="btn btn-sm btn-outline-danger"
+            (click)="removeCaffeine(caffeine)"
+          >
+            Remove
+          </button>
+        </div>
+      </div>
+      <div *ngIf="caffeineByDay.length === 0">
+        <p class="text-center">
+          There's nothing here! Start logging your drinks and build up a
+          history!
+        </p>
       </div>
     </div>
   </div>
-
 </div>
