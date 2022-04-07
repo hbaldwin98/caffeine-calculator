@@ -6,7 +6,7 @@ import { CaffeineService } from '../services/caffeine.service';
 @Component({
   selector: 'app-drink-list',
   templateUrl: './drink-list.component.html',
-  styleUrls: ['./drink-list.component.sass']
+  styleUrls: ['./drink-list.component.sass'],
 })
 export class DrinkListComponent implements OnInit {
   caffeineLast7Days!: any[];
@@ -14,18 +14,19 @@ export class DrinkListComponent implements OnInit {
   @Input() caffeineByDay!: Day[];
   currentDay: number = 0;
 
-  constructor(private caffeineService: CaffeineService) { }
+  constructor(private caffeineService: CaffeineService) {}
 
   ngOnInit(): void {
     this.load();
   }
 
-
   removeCaffeine(caffeine: Caffeine) {
     this.caffeineService.removeCaffeine(caffeine);
     this.load();
+    if (!this.caffeineByDay[this.currentDay]) {
+      this.currentDay--;
+    }
   }
-
 
   getCaffeineDays() {
     this.caffeineByDay = this.caffeineService.getCaffeineDays();
@@ -46,5 +47,4 @@ export class DrinkListComponent implements OnInit {
     this.getCaffeineDays();
     this.getCaffeineLast7Days();
   }
-
 }
