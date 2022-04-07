@@ -1,3 +1,4 @@
+import { CaffeineService } from './../services/caffeine.service';
 import { BsModalRef } from 'ngx-bootstrap/modal';
 import { Caffeine } from './../models/caffeine';
 import { Component, Input, OnInit } from '@angular/core';
@@ -7,7 +8,6 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { CaffeineService } from '../services/caffeine.service';
 
 @Component({
   selector: 'app-add-caffeine',
@@ -19,6 +19,8 @@ export class AddCaffeineComponent implements OnInit {
   drinkType = 'select';
   caffeineForm!: FormGroup;
   selectedOption!: number;
+  currentDay: number = 0;
+  selectedDate: Date = new Date(Date.now());
 
   constructor(
     private fb: FormBuilder,
@@ -43,12 +45,15 @@ export class AddCaffeineComponent implements OnInit {
           const hours = value.getHours();
           const minutes = value.getMinutes();
           const currentTime = new Date(Date.now());
-
-          if (hours > currentTime.getHours()) {
+          if (
+            hours > currentTime.getHours() &&
+            this.selectedDate.getDate() === currentTime.getDate()
+          ) {
             return { outOfRange: true };
           } else if (
             hours >= currentTime.getHours() &&
-            minutes > currentTime.getMinutes()
+            minutes > currentTime.getMinutes() &&
+            this.selectedDate.getDate() === currentTime.getDate()
           ) {
             return { outOfRange: true };
           }
@@ -97,6 +102,7 @@ export class AddCaffeineComponent implements OnInit {
   }
 
   addCaffeine(caffeine: Caffeine) {
+    caffeine.date.setDate(this.selectedDate.getDate());
     this.caffeineService.addCaffeine(caffeine);
     this.bsModalRef.hide();
   }
@@ -104,5 +110,12 @@ export class AddCaffeineComponent implements OnInit {
   addCaffeineFromOptions(index: number) {
     this.caffeineService.addCaffeine(this.options[index]);
     this.bsModalRef.hide();
+  }
+
+  changeDay(amount: number) {
+    this.currentDay += amount;
+    this.selectedDate = new Date(
+      this.caffeineService.caffeineByDay[this.currentDay].date
+    );
   }
 }

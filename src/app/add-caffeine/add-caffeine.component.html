@@ -1,18 +1,13 @@
 <div class="modal-header">
-  <h4 class="modal-title pull-left">Add Caffeinated Drink</h4>
-  <button
-    type="button"
-    class="btn-close close pull-right"
-    aria-label="Close"
-    (click)="bsModalRef.hide()"
-  >
-    <span aria-hidden="true" class="visually-hidden">&times;</span>
-  </button>
+  <div class="row mx-auto">
+    <h2 class="text-center">Add Caffeinated Drink</h2>
+
+  </div>
 </div>
 <div class="modal-body">
   <div class="col text-center">
     <div
-      class="btn-group m-2"
+      class="btn-group mb-3"
       role="group"
       aria-label="Basic radio toggle button group"
     >
@@ -71,6 +66,36 @@
     (ngSubmit)="caffeineForm.valid && addCaffeine(caffeineForm.value)"
     *ngIf="drinkType === 'custom'"
   >
+  <div class="row mx-auto" style="width: 75%">
+    <div class="col-2 d-flex justify-content-start align-items-center">
+      <button
+        type="button"
+        class="btn d-flex justify-content-center align-items-center day-button"
+        *ngIf="currentDay < caffeineService.caffeineByDay.length - 1"
+        (click)="changeDay(1)"
+      >
+        <i class="bi bi-arrow-left-square-fill"></i>
+      </button>
+    </div>
+
+    <div class="col-8">
+      <h6 class="text-center mt-2 mb-3">
+        {{
+          caffeineService.caffeineByDay[currentDay].date | date: "longDate"
+        }}
+      </h6>
+    </div>
+    <div class="col-2 d-flex justify-content-end align-items-center">
+      <button
+        type="button"
+        class="btn d-flex justify-content-center align-items-center day-button"
+        *ngIf="currentDay !== 0"
+        (click)="changeDay(-1)"
+      >
+        <i class="bi bi-arrow-right-square-fill"></i>
+      </button>
+    </div>
+  </div>
     <div class="row g-2">
       <div class="col-md-6">
         <div class="form-floating">
@@ -100,10 +125,11 @@
           >
         </div>
       </div>
-      <div class="col text-center m-auto">What time did you drink this?</div>
+      <div class="col text-center m-auto">When did you drink this?</div>
       <div class="col">
         <timepicker id="date" name="date" formControlName="date"></timepicker>
       </div>
+
     </div>
     <div class="row me-1">
       <button class="btn btn-success m-2" type="submit">Add Drink</button>

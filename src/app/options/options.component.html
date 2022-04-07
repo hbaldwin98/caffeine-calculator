@@ -1,16 +1,51 @@
-<div class="container">
-
-  <div class="input-group mt-2">
-    <div class="input-group-prepend">
-      <div class="input-group-text">Half Life</div>
+<div class="container mt-3">
+  <div class="row mt-3">
+    <h3 class="text-center">Options</h3>
+    <div class="col-lg-6">
+      <div class="input-group mt-2">
+        <div class="input-group-prepend">
+          <div class="input-group-text">Half Life</div>
+        </div>
+        <input
+          class="form-control"
+          type="number"
+          placeholder="{{ caffeineService.caffeineHalfLife }} hours"
+        />
+      </div>
     </div>
-    <input class="form-control" type="number" placeholder="{{caffeineService.caffeineHalfLife}} hours">
-  </div>
-  <div class="input-group mt-2">
-    <div class="input-group-prepend">
-      <div class="input-group-text">Caffeine Per Day</div>
+    <div class="col-lg-6">
+      <div class="input-group mt-2">
+        <div class="input-group-prepend">
+          <div class="input-group-text">Caffeine Per Day</div>
+        </div>
+        <input class="form-control" type="number" placeholder="400mg" />
+      </div>
     </div>
-    <input class="form-control" type="number" placeholder="400mg">
+    Note: Nothing here is implemented yet
   </div>
-  Note: Nothing here is implemented yet
+  <div class="row mt-3">
+    <h3 class="text-center">Stats</h3>
+    <div class="row">
+      <table class="col-lg-6 mx-auto">
+        <tbody>
+          <tr>
+            <td>Total Days</td>
+            <td>{{ totalConsumption.days }}</td>
+          </tr>
+          <tr>
+            <td>Total Drinks</td>
+            <td>{{ totalConsumption.numberDrinks }}</td>
+          </tr>
+          <tr>
+            <td>Total Caffeine (mg)</td>
+            <td>{{ totalConsumption.caffeine }}</td>
+          </tr>
+          <tr>
+            <td>Average Daily Caffeine (mg)</td>
+            <td>{{ totalConsumption.average | number: "1.0-0" }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
 </div>

@@ -24,7 +24,7 @@ export class CaffeineService {
     }
 
     let newDate = {
-      date: this.getDateString(),
+      date: this.getDateString(caffeine.date),
       caffeine: [],
     };
 
@@ -49,7 +49,7 @@ export class CaffeineService {
   }
 
   removeCaffeine(caffeine: Caffeine): void {
-    let newDate = this.getDateString();
+    let newDate = this.getDateString(caffeine.date);
 
     let dayIndex = this.caffeineByDay.findIndex((day) => day.date === newDate);
 
@@ -127,7 +127,7 @@ export class CaffeineService {
   }
 
   getCaffeineToday() {
-    let today = this.getDateString()
+    let today = this.getDateString();
     let caffeine = 0;
 
     this.caffeineByDay.forEach((day) => {
@@ -149,13 +149,18 @@ export class CaffeineService {
       date.setDate(date.getDate() - i);
       let newDate =
         date.getMonth() + 1 + '-' + date.getDate() + '-' + date.getFullYear();
-      let dayIndex = this.caffeineByDay.findIndex((day) => day.date === newDate);
+      let dayIndex = this.caffeineByDay.findIndex(
+        (day) => day.date === newDate
+      );
 
       if (dayIndex >= 0) {
         this.caffeineByDay[dayIndex].caffeine.forEach((caff) => {
           caffeine += caff.caffeine;
         });
-        days.push({date: this.caffeineByDay[dayIndex].date, caffeine: caffeine });
+        days.push({
+          date: this.caffeineByDay[dayIndex].date,
+          caffeine: caffeine,
+        });
       } else {
         days.push({ date: newDate, caffeine: 0 });
       }
@@ -165,8 +170,9 @@ export class CaffeineService {
   }
 
   getDrinksToday() {
-    let todayIndex = this.caffeineByDay.findIndex(day => day.date === this.getDateString());
-
+    let todayIndex = this.caffeineByDay.findIndex(
+      (day) => day.date === this.getDateString()
+    );
     if (todayIndex >= 0) {
       return this.caffeineByDay[todayIndex].caffeine;
     } else {
@@ -174,10 +180,10 @@ export class CaffeineService {
     }
   }
 
-  getDateString() {
-    let date = new Date(Date.now());
+  getDateString(caffDate?: Date) {
+    let date = caffDate || new Date(Date.now());
     let dateString =
-        date.getMonth() + 1 + '-' + date.getDate() + '-' + date.getFullYear();
+      date.getMonth() + 1 + '-' + date.getDate() + '-' + date.getFullYear();
 
     return dateString;
   }
