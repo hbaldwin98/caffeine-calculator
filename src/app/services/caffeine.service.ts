@@ -165,6 +165,7 @@ export class CaffeineService {
         days.push({ date: newDate, caffeine: 0 });
       }
     }
+    // reverses the output as earliest to latest
     days.reverse();
     return days;
   }

@@ -6,48 +6,20 @@
 </div>
 <div class="modal-body">
   <div class="col text-center">
-    <div
-      class="btn-group mb-3"
-      role="group"
-      aria-label="Basic radio toggle button group"
-    >
-      <input
-        type="radio"
-        class="btn-check"
-        name="btnradio"
-        id="select"
-        autocomplete="off"
-        value="select"
-        [(ngModel)]="drinkType"
-        checked
-      />
+    <div class="btn-group mb-3" role="group" aria-label="Basic radio toggle button group">
+      <input type="radio" class="btn-check" name="btnradio" id="select" autocomplete="off" value="select"
+        [(ngModel)]="drinkType" checked />
       <label class="btn btn-outline-success" for="select">Select Drink</label>
 
-      <input
-        type="radio"
-        class="btn-check"
-        name="btnradio"
-        id="custom"
-        value="custom"
-        [(ngModel)]="drinkType"
-        autocomplete="off"
-      />
+      <input type="radio" class="btn-check" name="btnradio" id="custom" value="custom" [(ngModel)]="drinkType"
+        autocomplete="off" />
       <label class="btn btn-outline-success" for="custom">Custom Drink</label>
     </div>
 
-    <form
-      (ngSubmit)="addCaffeineFromOptions(selectedOption)"
-      class="form-group"
-      *ngIf="drinkType === 'select'"
-      ngNativeValidate
-    >
-      <select
-        name="caffeineOption"
-        class="form-select"
-        aria-label="Default select example"
-        [(ngModel)]="selectedOption"
-        required
-      >
+    <form (ngSubmit)="addCaffeineFromOptions(selectedOption)" class="form-group" *ngIf="drinkType === 'select'"
+      ngNativeValidate>
+      <select name="caffeineOption" class="form-select" aria-label="Default select example" [(ngModel)]="selectedOption"
+        required>
         <ng-container *ngFor="let option of options; let i = index">
           <option value="{{ i }}">
             {{ option.name + " - " + option.caffeine + "mg" }}
@@ -60,69 +32,43 @@
     </form>
   </div>
 
-  <form
-    class="form-group"
-    [formGroup]="caffeineForm"
-    (ngSubmit)="caffeineForm.valid && addCaffeine(caffeineForm.value)"
-    *ngIf="drinkType === 'custom'"
-  >
-  <div class="row mx-auto mb-2" style="width: 75%">
-    <div class="col-2 d-flex justify-content-start align-items-center">
-      <button
-        type="button"
-        class="btn d-flex justify-content-center align-items-center day-button"
-        *ngIf="currentDay < caffeineService.caffeineByDay.length - 1"
-        (click)="changeDay(1)"
-      >
-        <i class="bi bi-arrow-left-square-fill"></i>
-      </button>
-    </div>
+  <form class="form-group" [formGroup]="caffeineForm" (ngSubmit)="caffeineForm.valid && addCaffeine(caffeineForm.value)"
+    *ngIf="drinkType === 'custom'">
+    <div class="row mx-auto mb-2" style="width: 75%">
+      <div class="col-2 d-flex justify-content-start align-items-center">
+        <button type="button" class="btn d-flex justify-content-center align-items-center day-button"
+          *ngIf="currentDay < caffeineService.caffeineByDay.length - 1" (click)="changeDay(1)">
+          <i class="bi bi-arrow-left-square-fill"></i>
+        </button>
+      </div>
 
-    <div class="col-8">
-      <h6 class="text-center mt-2 mb-3">
-        {{
+      <div class="col-8">
+        <h6 class="text-center mt-2 mb-3">
+          {{
           caffeineService.caffeineByDay[currentDay].date | date: "longDate"
         }}
-      </h6>
+        </h6>
+      </div>
+      <div class="col-2 d-flex justify-content-end align-items-center">
+        <button type="button" class="btn d-flex justify-content-center align-items-center day-button"
+          *ngIf="currentDay !== 0" (click)="changeDay(-1)">
+          <i class="bi bi-arrow-right-square-fill"></i>
+        </button>
+      </div>
     </div>
-    <div class="col-2 d-flex justify-content-end align-items-center">
-      <button
-        type="button"
-        class="btn d-flex justify-content-center align-items-center day-button"
-        *ngIf="currentDay !== 0"
-        (click)="changeDay(-1)"
-      >
-        <i class="bi bi-arrow-right-square-fill"></i>
-      </button>
-    </div>
-  </div>
     <div class="row g-2">
       <div class="col-md-6">
         <div class="form-floating">
-          <input
-            id="name"
-            formControlName="name"
-            type="text"
-            class="form-control mb-1"
-            placeholder="Name of Drink"
-            required
-          />
+          <input id="name" formControlName="name" type="text" class="form-control mb-1" placeholder="Name of Drink"
+            required />
           <label for="name"><small>Name of Drink</small></label>
         </div>
       </div>
       <div class="col-md-6">
         <div class="form-floating">
-          <input
-            id="caffeine"
-            formControlName="caffeine"
-            class="form-control"
-            type="number"
-            placeholder="90"
-            required
-          />
-          <label for="caffeine"
-            ><small>Amount of Caffeine in Drink</small></label
-          >
+          <input id="caffeine" formControlName="caffeine" class="form-control" type="number" placeholder="90"
+            required />
+          <label for="caffeine"><small>Amount of Caffeine in Drink</small></label>
         </div>
       </div>
       <div class="col text-center m-auto">When did you drink this?</div>

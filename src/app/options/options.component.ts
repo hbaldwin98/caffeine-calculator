@@ -7,7 +7,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./options.component.sass'],
 })
 export class OptionsComponent implements OnInit {
-  totalConsumption = { days: 0, caffeine: 0, numberDrinks: 0, average: 0};
+  totalConsumption = { days: 0, caffeine: 0, numberDrinks: 0, average: 0 };
   constructor(public caffeineService: CaffeineService) {}
 
   ngOnInit(): void {
@@ -25,6 +25,7 @@ export class OptionsComponent implements OnInit {
       });
     });
 
-    this.totalConsumption.average = this.totalConsumption.caffeine / this.totalConsumption.days;
+    this.totalConsumption.average =
+      this.totalConsumption.caffeine / this.totalConsumption.days;
   }
 }

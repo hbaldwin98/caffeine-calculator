@@ -19,7 +19,7 @@ export class DrinkListComponent implements OnInit {
   ngOnInit(): void {
     this.load();
   }
-
+  
   removeCaffeine(caffeine: Caffeine) {
     this.caffeineService.removeCaffeine(caffeine);
     this.load();
